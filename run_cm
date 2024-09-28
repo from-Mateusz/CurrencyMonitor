@@ -1,0 +1,30 @@
+#!/usr/bin/bash
+#: Author		: Mateusz Czyzewski [Hope2Code]
+#: Contact		: cz.mateusz@proton.me
+#: Description		: Compile and run currency monitor with given parameters
+
+cpp_1="./include/utilities.cpp"	cpp_2="./include/currency_network.cpp"	cpp_3="currency_monitor.cpp"	executable="currency_monitor"
+
+if [[ ! -e ./$executable ]]
+then
+	echo "Compiling program to one with name $executable"
+	g++ -o $executable $cpp_1 $cpp_2 $cpp_3 -lcurl
+	
+	while [[ ! -e ./$executable ]]
+	do
+	:
+	done
+fi
+
+parameters_chain=""
+
+for var in "$@"
+do
+    parameters_chain="$parameters_chain $var"
+done
+
+echo "Running $executable $parameters_chain ..."
+
+./$executable $parameters_chain
+
+
